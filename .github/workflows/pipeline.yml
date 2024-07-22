@@ -48,6 +48,9 @@ jobs:
       - name: Run end-to-end tests
         run: npm t
         working-directory: ./e2e-tests
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          SECRET: ${{ secrets.SECRET }}
           
       - name: Trigger deployment
         uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
