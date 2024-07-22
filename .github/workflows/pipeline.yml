@@ -16,16 +16,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: |
-          cd client
-          npm i
-          npm run lint
-          npm run build
 
-      - name: Install dependencies
+      - name: Install client dependencies
+        run: npm install
+        working-directory: ./client
+      - name: Check client style
+        run: npm run lint
+        working-directory: ./client
+      - name: Build client
+        run: npm run build
+        working-directory: ./client
+
+      - name: Install server dependencies
         run: npm install
         working-directory: ./server
-      - name: Check style
+      - name: Check server style
         run: npm run lint
         working-directory: ./server
       - name: Run server unit tests
@@ -33,20 +38,17 @@ jobs:
         working-directory: ./server
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          SECRET: ${{ secrets.SECRET }}
 
       - name: Setup end-to-end tests
         run: |
           npm ci
           npx playwright install --with-deps
         working-directory: ./e2e-tests
-        env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
       - name: Run end-to-end tests
         run: npm t
         working-directory: ./e2e-tests
-        env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-
+          
       - name: Trigger deployment
         uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ''), '#skip') }}
