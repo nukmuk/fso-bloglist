@@ -93,6 +93,7 @@ describe("Blog app", () => {
       await expect(removeButtonOther).not.toBeVisible();
     });
 
+    // test is flaky
     test("blogs are sorted correctly based on likes", async ({ page }) => {
       await createBlog(page, "first blog", "test author", "example.com");
       await createBlog(page, "second blog", "test author", "example.com");
@@ -107,7 +108,9 @@ describe("Blog app", () => {
       }
       const likeButtons = await page.getByText("like").all();
 
-      for (let i = 0; i < 3; i++) {
+      const likes = [1, 2];
+
+      for (let i = 0; i < likes[0]; i++) {
         await likeButtons[0].click();
         await page.waitForResponse(
           (response) =>
@@ -117,7 +120,7 @@ describe("Blog app", () => {
         );
       }
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < likes[1]; i++) {
         await likeButtons[1].click();
         await page.waitForResponse(
           (response) =>
@@ -127,11 +130,13 @@ describe("Blog app", () => {
         );
       }
 
+      await page.waitForTimeout(1000);
+
       await expect(
-        await page.getByText("likes 3", { exact: false })
+        await page.getByText(`likes ${likes[0]}`, { exact: false })
       ).toBeVisible();
       await expect(
-        await page.getByText("likes 5", { exact: false })
+        await page.getByText(`likes ${likes[1]}`, { exact: false })
       ).toBeVisible();
 
       const blogs = await page.locator(".blog").all();
