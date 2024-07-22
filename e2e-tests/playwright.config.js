@@ -1,7 +1,7 @@
 // @ts-check
 const { defineConfig, devices } = require("@playwright/test");
 
-const PORT = process.env.PORT || "1234";
+const PORT = process.env.PORT || "8080";
 
 /**
  * Read environment variables from file.
@@ -75,9 +75,10 @@ module.exports = defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: 'npm run start:test',
-    // url: 'http://localhost:3003',
+    url: `http://localhost:${PORT}`,
     // reuseExistingServer: !process.env.CI,
     cwd: "../server",
     env: {...process.env, PORT},
+    timeout: 120 * 1000,
   },
 });
