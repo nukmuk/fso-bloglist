@@ -16,19 +16,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: |
-          cd client
-          npm i
-          npm run lint
-          npm run build
 
-      - name: Install dependencies
+      - name: Install client dependencies
+        run: npm install
+        working-directory: ./client
+      - name: Check client style
+        run: npm run lint
+        working-directory: ./client
+      - name: Build client
+        run: npm run build
+        working-directory: ./client
+
+      - name: Install server dependencies
         run: npm install
         working-directory: ./server
-      - name: Check style
+      - name: Check server style
         run: npm run lint
         working-directory: ./server
-      - name: Test
+      - name: Test server
         run: npm t
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
