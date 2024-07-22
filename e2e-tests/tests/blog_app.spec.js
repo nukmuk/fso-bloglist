@@ -139,7 +139,7 @@ describe("Blog app", () => {
         await page.getByText(`likes ${likes[1]}`, { exact: false })
       ).toBeVisible();
 
-      const blogs = await page.locator(".blog").all();
+      const blogs = await page.locator("#blog").all();
 
       await expect(blogs[0]).toContainText("second blog");
     });
