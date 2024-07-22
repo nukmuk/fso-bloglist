@@ -120,7 +120,7 @@ const App = () => {
               marginTop={0}
               marginBottom={1}
             >
-              <b>blog app</b>
+              <b>cool blog app</b>
             </Typography>
             <Notifications />
             <Routes>
