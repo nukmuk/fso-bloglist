@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import userService from "../services/users";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeUsers, setUsers } from "../reducers/usersReducer";
@@ -9,7 +8,7 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(initializeUsers());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>

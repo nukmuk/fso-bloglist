@@ -8,7 +8,7 @@ const User = ({ matchedUser, userId }) => {
     if (!matchedUser) {
       users.get(userId).then((newUser) => setUser(newUser));
     }
-  }, []);
+  }, [matchedUser, userId]);
 
   if (!user) return null;
 

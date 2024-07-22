@@ -8,7 +8,7 @@ const BlogInfo = ({ matchedBlog, blogId, likeFunction }) => {
     if (!matchedBlog) {
       blogService.get(blogId).then((newBlog) => setBlog(newBlog));
     }
-  }, []);
+  }, [blogId, matchedBlog]);
 
   if (!blog) return null;
 
