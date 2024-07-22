@@ -63,7 +63,7 @@ const Blog = ({ blog, user, likeFunction }) => {
     <TableRow>
       <TableCell>
         <Typography variant="body1">
-          <Box display="flex" alignItems="center" gap={2}>
+          <Box display="flex" alignItems="center" gap={2} className="blog">
             <Link to={`/blogs/${blog.id}`}>
               <Typography variant="subtitle1">
                 {blog.title} {blog.author}{" "}

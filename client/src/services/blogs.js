@@ -26,8 +26,7 @@ const create = async (newBlog, user) => {
 };
 
 const like = async (blogId) => {
-  const blogs = await getAll();
-  const blogToLike = blogs.find((b) => b.id === blogId);
+  const blogToLike = await get(blogId);
   if (!blogToLike) return console.error(`blog ${blogId} to like not found`);
   const beforeLikes = blogToLike.likes;
   const response2 = await axios.patch(`${baseUrl}/${blogId}`, {

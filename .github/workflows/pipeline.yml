@@ -33,12 +33,25 @@ jobs:
       - name: Check server style
         run: npm run lint
         working-directory: ./server
-      - name: Test server
+      - name: Run server unit tests
         run: npm t
+        working-directory: ./server
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
-        working-directory: ./server
+
+      - name: Setup end-to-end tests
+        run: |
+          npm ci
+          npx playwright install --with-deps
+        working-directory: ./e2e-tests
+      - name: Run end-to-end tests
+        run: npm t
+        working-directory: ./e2e-tests
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          SECRET: ${{ secrets.SECRET }}
+          
       - name: Trigger deployment
         uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ''), '#skip') }}
